@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+}
+div {
+  box-sizing: border-box;
+}
+.title {
+  color: blue;
+}
+.alert {
+  display: block;
+  background-color: #d1c4e9;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 100%;
+  p {
+    margin-bottom: 0;
+  }
+}

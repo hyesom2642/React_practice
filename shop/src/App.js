@@ -6,22 +6,34 @@ import Data from './data.js';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link, Route, Switch } from 'react-router-dom';
 import Products from './products.js';
-
+import axios from 'axios';
 
 function App() {
 
   let [shoesdata, setShoesdata] = useState(Data);
+  let [loadingUI, setloadingUI] = useState(false);
+
+  let [inventory, setInventory] = useState([10, 11, 12]);
+  function changeInventory(){
+    let newInventory = [...inventory];
+    newInventory = inventory.map(function(신발재고){
+      return 신발재고-1;
+    });
+    setInventory(newInventory);
+  }
+
+  
 
   return (
     <div className="App">
       <>
       <Navbar bg="light" variant="light">
         <Container>
-        <Navbar.Brand><Link to="/">Shop</Link></Navbar.Brand>
+        <Navbar.Brand as={ Link } to="/">Shop</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link><Link to="/">HOME</Link></Nav.Link>
-          <Nav.Link><Link to="/product1">PRODUCTS</Link></Nav.Link>
-          <Nav.Link>Service</Nav.Link>
+          <Nav.Link as={ Link } to="/">HOME</Nav.Link>
+          <Nav.Link as={ Link } to="/product1">PRODUCTS</Nav.Link>
+          <Nav.Link as={ Link } to="">Service</Nav.Link>
         </Nav>
         </Container>
       </Navbar>
@@ -48,15 +60,41 @@ function App() {
                   })
                 }            
             </div>
+            <button className="btn btn-primary" onClick={ () => {
+              // 로딩중이라는 UI 보이게 처리
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then( (result) => {
+                // 로딩중이라는 UI 안보이게 처리
+                setloadingUI(false)
+                setShoesdata([ ...shoesdata, ...result.data ]);
+              })
+              .catch( () => {
+                console.log('실패');
+                setloadingUI(true)
+              })
+            }}>더보기</button>
+            {
+              loadingUI === true
+              ? ( <Loading /> )
+              : null
+            }
           </div>
         </Route>
+
         <Route path="/product1/:productId">
-          <Products productDetail={ shoesdata }/>
+          <Products productDetail={ shoesdata } 재고={inventory} 재고변경={setInventory} 재고변경함수={changeInventory} />
         </Route>
       </Switch>
       </>
     </div>
   );
+}
+function Loading(){
+  return(
+    <div className="alert">
+      <p>Loading....</p>
+    </div>
+  )
 }
 
 function Product(props){
