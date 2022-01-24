@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { Nav, Link,  } from 'react-bootstrap';
 import './products.scss';
+import { CSSTransition } from 'react-transition-group';
 
 function Products(props){
     
@@ -20,6 +22,10 @@ function Products(props){
     let productfind = props.productDetail.find(function(item){
         return item.id == productId
     });
+
+    let [tab, setTab] = useState(0);
+
+    let [aniSwitch, setAniSwitch] = useState(false);
 
     return (
         <>
@@ -55,6 +61,21 @@ function Products(props){
                     <button onClick={ () => history.push('/') } className="btn btn-danger">뒤로가기2</button> 
                 </div>
             </div>
+
+            <Nav className="mt-5" variant="pills" defaultActiveKey="link-0">
+                <Nav.Item>
+                    <Nav.Link eventKey="link-0" onClick={ () => { setTab(0); setAniSwitch(false) } }>1번 Tab</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="link-1" onClick={ () => { setTab(1); setAniSwitch(false) } }>2번 Tab</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="link-2" onClick={ () => { setTab(2); setAniSwitch(false) } }>3번 Tab</Nav.Link>
+                </Nav.Item>
+            </Nav>
+            <CSSTransition in={aniSwitch} classNames="wow" timeout={1000}>
+            <TabContent clickedTab={ tab } switch={setAniSwitch}/>
+            </CSSTransition>
         </div>
         </>
     )
@@ -64,6 +85,20 @@ function InventoryInfo(props){
     return(
         <p>재고 : {props.재고[0]} </p>
     )
+}
+
+function TabContent(props){
+    useEffect( () => {
+        props.switch(true);
+    });
+
+    if(props.clickedTab === 0){
+        return <div>1번 Tab 내용</div>
+    } else if(props.clickedTab === 1){
+        return <div>2번 Tab 내용</div>
+    } else if(props.clickedTab === 2){
+        return <div>3번 Tab 내용</div>
+    }
 }
 
 export default Products;

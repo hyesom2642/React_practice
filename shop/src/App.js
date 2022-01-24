@@ -8,6 +8,8 @@ import { Link, Route, Switch } from 'react-router-dom';
 import Products from './products.js';
 import axios from 'axios';
 
+import Cart from './Cart.js';
+
 function App() {
 
   let [shoesdata, setShoesdata] = useState(Data);
@@ -22,6 +24,8 @@ function App() {
     setInventory(newInventory);
   }
 
+  let 재고context = React.createContext();
+
   
 
   return (
@@ -33,7 +37,7 @@ function App() {
         <Nav className="me-auto">
           <Nav.Link as={ Link } to="/">HOME</Nav.Link>
           <Nav.Link as={ Link } to="/product1">PRODUCTS</Nav.Link>
-          <Nav.Link as={ Link } to="">Service</Nav.Link>
+          <Nav.Link as={ Link } to="/cart">Cart</Nav.Link>
         </Nav>
         </Container>
       </Navbar>
@@ -83,6 +87,10 @@ function App() {
 
         <Route path="/product1/:productId">
           <Products productDetail={ shoesdata } 재고={inventory} 재고변경={setInventory} 재고변경함수={changeInventory} />
+        </Route>
+
+        <Route path="/cart">
+          <Cart />
         </Route>
       </Switch>
       </>
