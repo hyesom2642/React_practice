@@ -17,6 +17,8 @@ function App() {
 
   let [modal, modal변경] = useState(false);
 
+  let [현재번호, set현재번호] = useState(0);
+
   // let posts = '강남고기맛집';
   return (
     <div className="App">
@@ -29,7 +31,7 @@ function App() {
         <hr />
       </div> */}
       <button onClick={ 제목바꾸기 }>버튼</button>
-      <div className="list">
+      {/* <div className="list">
         <h3> { 글제목[0] } <span onClick={ () => { 좋아요변경(좋아요 + 1)} }>❤</span> { 좋아요 } </h3>
         <p> 2022-01-04 </p>
         <hr />
@@ -43,19 +45,35 @@ function App() {
         <h3 onClick={ () => modal변경(!modal) }> { 글제목[2] } </h3>
         <p> 2022-01-04 </p>
         <hr />
-      </div>
+      </div> */}
+      { 
+        글제목.map(function(i, a){
+          return (
+            <div className="list">
+              <h3 onClick={ () => { set현재번호(a) }}> <span onClick={ () => { modal변경(!modal) } }>{ i }</span> <span onClick={ () => { 좋아요변경(좋아요 + 1)} }>❤</span> { 좋아요 } </h3>
+              <p> 2022-01-04 </p>
+              <hr />
+            </div>
+          ) 
+        })
+      }
+      <button onClick={ () => { set현재번호(0) } }>버튼1</button>
+      <button onClcik={ () => { set현재번호(1) } }>버튼2</button>
+      <button onClick={ () => { set현재번호(2) } }>버튼3</button>
+
+      <button onClick={ () => { modal변경(!modal) } }>내용열고닫기</button>
 
       {
-        modal === true ? <Modal /> : null
+        modal === true ? <Modal 글제목={글제목} 현재번호={현재번호}/> : null
       }
     </div>
   );
 }
 
-function Modal() {
+function Modal(props) {
   return (
     <div className="modal">
-      <h2>제목</h2>
+      <h2>{ props.글제목[props.현재번호] }</h2>
       <p>날짜</p>
       <p>내용</p>
     </div>

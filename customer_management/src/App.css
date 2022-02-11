@@ -1,0 +1,12 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.gray-background {
+  background: #eee;
+}
+
+img {
+  border-radius: 50%;
+}

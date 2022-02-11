@@ -1,0 +1,36 @@
+.TodoListitem {
+  display: flex;
+  align-items: center;
+  padding: 13px;
+  border-top: 1px solid #eee;
+
+  .TodoListitem-checkbox {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    svg {
+      font-size: 20px;
+    }
+    .TodoListitem-text {
+      margin-left: 10px;
+      flex: 1;
+    }
+  }
+  &:checked {
+    .TodoListitem-text {
+      color: #e0e0e0;
+      text-decoration: line-through;
+    }
+  }
+
+  .TodoListitem-remove {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    &:hover {
+      color: #ffaaaa;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useState } from 'react';
+import React, { useState, useContext, lazy, Suspense } from 'react';
 import './App.css';
 import Data from './data.js';
 import { Navbar, Container, Nav } from 'react-bootstrap';
@@ -8,7 +8,9 @@ import { Link, Route, Switch } from 'react-router-dom';
 import Products from './products.js';
 import axios from 'axios';
 
-import Cart from './Cart.js';
+// import Cart from './Cart.js';
+let Cart = lazy( () => { return import('./Cart.js') });
+// <Cart>를 보여줄 때만 import Cart.js해온다.
 
 function App() {
 
@@ -90,7 +92,9 @@ function App() {
         </Route>
 
         <Route path="/cart">
-          <Cart />
+          <Suspense fallback={<div>로딩중이에요</div>}>
+            <Cart />
+          </Suspense>
         </Route>
       </Switch>
       </>
